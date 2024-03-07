@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Genshin Impact Wish Calculator</title>
+<link rel="icon" href="https://i.ibb.co/B4GJGvN/Intertwined.png">
+<style>
+    body {
+        font-family: Arial, sans-serif;
+        background-color: #f0f0f0;
+        margin: 0;
+        padding: 0;
+    }
+    .container {
+        margin: 50px auto;
+        text-align: center;
+        background-color: #fff;
+        border-radius: 10px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        padding: 20px;
+        width: 300px;
+    }
+    h2 {
+        color: #333;
+    }
+    label {
+        display: block;
+        margin-bottom: 5px;
+        color: #555;
+    }
+    input[type="number"] {
+        width: 100px;
+        padding: 8px;
+        margin: 5px;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+    }
+    #result {
+        font-size: 20px;
+        margin-top: 10px;
+        color: #007bff;
+    }
+    #targetType {
+        width: 120px;
+        padding: 8px;
+        margin: 5px;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+    }
+    #targetResult {
+        color: #007bff;
+        font-size: 20px;
+    }
+</style>
+</head>
+<body>
+
+<div class="container">
+    <h2>Genshin Impact Wish Calculator</h2>
+    <label for="primogems">Current Amount of Primogems:</label>
+    <input type="number" id="primogems" oninput="calculateResult(); calculateTargetResult()" min="0" step="1" value="0">
+    <br>
+    <label for="fates">Current Amount of Fates:</label>
+    <input type="number" id="fates" oninput="calculateResult(); calculateTargetResult()" min="0" step="1" value="0">
+    <br>
+    <div id="result">Wishes: 0</div>
+    <br>
+    <h3>Target Calculator</h3>
+    <label for="targetAmount">Target Amount:</label>
+    <input type="number" id="targetAmount" oninput="calculateResult(); calculateTargetResult()" min="0" step="1" value="0">
+    <br>
+    <label for="targetType">Target Type:</label>
+    <select id="targetType" onchange="calculateResult(); calculateTargetResult()">
+        <option value="primogems">Primogems</option>
+        <option value="fates">Fates</option>
+    </select>
+    <br>
+    <div id="targetResult">Primogems needed: 0<br>Fates needed: 0</div>
+</div>
+
+<script>
+function calculateResult() {
+    var primogems = parseInt(document.getElementById('primogems').value);
+    var fates = parseInt(document.getElementById('fates').value);
+    var result = Math.floor((primogems / 160) + fates);
+    document.getElementById('result').innerHTML = "Wishes: " + result;
+}
+
+function calculateTargetResult() {
+    var primogems = parseInt(document.getElementById('primogems').value);
+    var fates = parseInt(document.getElementById('fates').value);
+    var targetAmount = parseInt(document.getElementById('targetAmount').value);
+    var targetType = document.getElementById('targetType').value;
+    var currentPrimos = primogems + (fates * 160);
+    var currentFates = (primogems / 160) + fates;
+    var resultPrimos;
+    var resultFates;
+    
+    if (targetType === "primogems") {
+        var targetPrimos = targetAmount;
+        var targetFates = 0;
+        var targetTotal = targetPrimos;
+        resultPrimos = Math.floor(targetTotal - currentPrimos);
+        resultFates = Math.floor((targetTotal - currentPrimos) / 160);
+    } else {
+        var targetFates = targetAmount;
+        var targetPrimos = 0;
+        var targetTotal = targetFates * 160;
+        resultPrimos = Math.floor(targetTotal - currentPrimos);
+        resultFates = Math.floor((targetTotal - currentPrimos) / 160);
+    }
+    
+    document.getElementById('targetResult').innerHTML = "Primogems needed: " + resultPrimos + "<br>Fates needed: " + resultFates;
+}
+</script>
+
+</body>
+</html>
