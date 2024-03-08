@@ -98,24 +98,24 @@ function calculateTargetResult() {
     var fates = parseInt(document.getElementById('fates').value);
     var targetAmount = parseInt(document.getElementById('targetAmount').value);
     var targetType = document.getElementById('targetType').value;
-    var currentPrimos = primogems + (fates * 160);
-    var currentFates = (primogems / 160) + fates;
+    var currentPrimos = primogems + Math.floor((fates * 160));
+    var currentFates = Math.floor((primogems / 160) + fates);
     var resultPrimos;
     var resultFates;
     
-    if (targetType === "primogems") {
-        var targetPrimos = targetAmount;
-        var targetFates = 0;
-        var targetTotal = targetPrimos;
-        resultPrimos = Math.floor(targetTotal - currentPrimos);
-        resultFates = Math.floor((targetTotal - currentPrimos) / 160);
-    } else {
-        var targetFates = targetAmount;
-        var targetPrimos = 0;
-        var targetTotal = targetFates * 160;
-        resultPrimos = Math.floor(targetTotal - currentPrimos);
-        resultFates = Math.floor((targetTotal - currentPrimos) / 160);
-    }
+if (targetType === "primogems") {
+    var targetPrimos = targetAmount;
+    var targetFates = 0;
+    var targetTotal = targetPrimos;
+    resultPrimos = Math.ceil(targetTotal - currentPrimos);
+    resultFates = Math.ceil((targetTotal - currentPrimos) / 160);
+} else {
+    var targetFates = targetAmount;
+    var targetPrimos = 0;
+    var targetTotal = targetFates * 160;
+    resultPrimos = Math.ceil(targetTotal - currentPrimos);
+    resultFates = Math.ceil(resultPrimos / 160);
+}
     
     if (resultPrimos <= 0) {
         resultPrimos = "Sufficient";
